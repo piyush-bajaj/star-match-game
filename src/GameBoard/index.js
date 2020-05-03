@@ -6,8 +6,8 @@ import Utils from "../Utils";
 function GameBoard() {
 
 	const [stars, setStars] = useState( Utils.random( 1, 9 ) );
-	const [availableNumbers, setavailableNumbers] = useState( Utils.range( 1, 9 ) );
-	const [candidateNumbers, setcandidateNumbers] = useState( [] );
+	const [availableNumbers, setAvailableNumbers] = useState( Utils.range( 1, 9 ) );
+	const [candidateNumbers, setCandidateNumbers] = useState( [] );
 
 	const candidatesAreWrong = Utils.sum( candidateNumbers ) > stars;
 
@@ -21,10 +21,27 @@ function GameBoard() {
 		return "available";
 	};
 
+	const onNumberClick = ( number, status ) => {
+		if ( status === "used" ) {
+			return;
+		}
+		const newCandidates = status === "available" ? candidateNumbers.concat( number ) : candidateNumbers.filter( cn => cn !== number );
+		if ( Utils.sum( newCandidates ) !== stars ) {
+			setCandidateNumbers( newCandidates );
+		} else {
+			const newAvailableNums = availableNumbers.filter( n => !newCandidates.includes( n ) );
+			setStars( Utils.randomSumIn( newAvailableNums, 9 ) );
+			setAvailableNumbers( newAvailableNums );
+			setCandidateNumbers( [] );
+		}
+		console.log( number );
+		console.log( status );
+	}
+
 	return (
 		<div className="body">
 			<StarBoard count={ stars } />
-			<NumberBoard numberStatus={ numberStatus } />
+			<NumberBoard numberStatus={ numberStatus } onClick={ onNumberClick } />
 		</div>
 	);
 }

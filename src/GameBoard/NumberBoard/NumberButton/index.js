@@ -11,7 +11,7 @@ function NumberButton( props ) {
 	return (
 		<button
 			className="number"
-			onClick={ () => console.log( props.number ) }
+			onClick={ () => props.onClick( props.number, props.status ) }
 			style={ { backgroundColor: colors[props.status] } }>
 			{ props.number }
 		</button>
