@@ -38,9 +38,17 @@ function GameBoard() {
 		console.log( status );
 	}
 
+	const gameDone = availableNumbers.length === 0;
+
+	const resetGame = () => {
+		setStars( Utils.random( 1, 9 ) );
+		setAvailableNumbers( Utils.range( 1, 9 ) );
+		setCandidateNumbers( [] );
+	};
+
 	return (
 		<div className="body">
-			<StarBoard count={ stars } />
+			<StarBoard count={ stars } gameDone={ gameDone } onClick={ resetGame } />
 			<NumberBoard numberStatus={ numberStatus } onClick={ onNumberClick } />
 		</div>
 	);

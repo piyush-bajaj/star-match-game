@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import Utils from "../../Utils";
+import StarsDisplay from "./StarsDisplay";
+import PlayAgain from "./PlayAgain";
 
 export default function StarBoard( props ) {
 
 	return (
 		<div className="left">
-			{ Utils.range( 1, props.count ).map( starId => <div key={ starId } className="star" /> ) }
+			{ props.gameDone ? ( <PlayAgain onClick={ props.onClick } /> ) : ( <StarsDisplay count={ props.count } /> ) }
+
 		</div>
 	);
 }
