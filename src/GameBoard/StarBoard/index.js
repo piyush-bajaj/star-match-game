@@ -6,8 +6,7 @@ export default function StarBoard( props ) {
 
 	return (
 		<div className="left">
-			{ props.gameDone ? ( <PlayAgain onClick={ props.onClick } /> ) : ( <StarsDisplay count={ props.count } /> ) }
-
+			{ props.gameDone !== 'active' ? ( <PlayAgain onClick={ props.onClick } gameStatus={ props.gameDone } /> ) : ( <StarsDisplay count={ props.count } /> ) }
 		</div>
 	);
 }

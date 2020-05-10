@@ -3,7 +3,7 @@ import StarBoard from "./StarBoard";
 import NumberBoard from "./NumberBoard";
 import Utils from "../Utils";
 
-function GameBoard() {
+function GameBoard( props ) {
 
 	const [stars, setStars] = useState( Utils.random( 1, 9 ) );
 	const [availableNumbers, setAvailableNumbers] = useState( Utils.range( 1, 9 ) );
@@ -21,7 +21,16 @@ function GameBoard() {
 		return "available";
 	};
 
+	let gameDone = availableNumbers.length === 0 && props.secondsLeft >= 0 ? 'won' : props.secondsLeft === 0 ? 'lost' : 'active';
+
 	const onNumberClick = ( number, status ) => {
+		if ( gameDone === 'won' ) {
+			return;
+		}
+		else if ( gameDone === 'lost' ) {
+			return;
+		}
+		props.startTimer();
 		if ( status === "used" ) {
 			return;
 		}
@@ -34,16 +43,14 @@ function GameBoard() {
 			setAvailableNumbers( newAvailableNums );
 			setCandidateNumbers( [] );
 		}
-		console.log( number );
-		console.log( status );
 	}
-
-	const gameDone = availableNumbers.length === 0;
 
 	const resetGame = () => {
 		setStars( Utils.random( 1, 9 ) );
 		setAvailableNumbers( Utils.range( 1, 9 ) );
 		setCandidateNumbers( [] );
+		gameDone = 'active';
+		props.resetGame();
 	};
 
 	return (
